@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Add custom styles or overrides if necessary */
+
+
+/* Import Flowbite */
+@import 'flowbite';
+
+/* Custom styles */
+:root {
+  --primary-color: theme(colors.custom-blue);
+}
+
+/* Dark mode styles */
+.dark {
+  --primary-color: #1a202c; /* Example dark mode primary color */
+}
+
+body {
+  background-color: var(--primary-color);
+}
