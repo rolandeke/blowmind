@@ -55,14 +55,14 @@ export default function Landing() {
        <nav className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 shadow-md">
         <div className="flex items-center text-indigo-600 dark:text-white">
           <i className="fas fa-quote-left text-2xl"></i>
-          <span className="ml-2 text-2xl font-bold">Blowmind</span>
+          <span className="text-lg md:ml-2 md:text-2xl font-bold">Blowmind</span>
         </div>
         <div className="md:hidden">
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="text-indigo-600 dark:text-white"
           >
-            <i className="fi fi-rr-menu-burger text-2xl"></i>
+            <i className="fas fa-bars text-2xl"></i>
           </button>
         </div>
         <ul className={`flex-col md:flex-row md:flex items-center gap-4 ${isMenuOpen ? 'flex' : 'hidden'}`}>
@@ -86,7 +86,7 @@ export default function Landing() {
               <button className="text-indigo-600 hover:text-indigo-800 dark:text-white dark:hover:text-gray-300">Blogs</button>
             </Link>
           </li>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col items-center gap-4 md:flex">
             {loading ? (
               <CustomSkeleton width={35} height={35} circle={true} />
             ) : user ? (
@@ -100,10 +100,10 @@ export default function Landing() {
             ) : (
               <>
                 <Link href="/#login">
-                  <button className="px-4 py-2 border border-indigo-600 text-indigo-600 rounded hover:bg-indigo-100">Log in</button>
+                  <button className="px-2 py-1 md:px-4 md:py-2 border border-indigo-600 text-indigo-600 rounded hover:bg-indigo-100">Log in</button>
                 </Link>
                 <Link href="/#signup">
-                  <button className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Sign up</button>
+                  <button className="px-2 py-1 md:px-4 md:py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Sign up</button>
                 </Link>
               </>
             )}
