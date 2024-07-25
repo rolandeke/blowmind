@@ -86,13 +86,13 @@ export default function Landing() {
               <button className="text-indigo-600 hover:text-indigo-800 dark:text-white dark:hover:text-gray-300">Blogs</button>
             </Link>
           </li>
-          <div className="flex flex-col items-center gap-4 md:flex">
+          <div className="flex flex-col items-center gap-4 md:block">
             {loading ? (
               <CustomSkeleton width={35} height={35} circle={true} />
             ) : user ? (
               <button
                 onClick={logout}
-                className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
+                className="px-2 py-1 md:px-4 md:py-2 gap-4 bg-indigo-600 text-white rounded hover:bg-indigo-700"
                 disabled={isPending}
               >
                 {isPending ? "Logging out..." : "Logout"}
