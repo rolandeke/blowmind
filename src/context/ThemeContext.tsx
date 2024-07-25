@@ -15,7 +15,7 @@ type ThemeContextProviderProps = {
 };
 
 const initialState: ThemeState = {
-    color: "2a85fe",
+    color: "#4f46e5", //Indigo
     mode: "light"
 };
 

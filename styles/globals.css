@@ -2,15 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Add custom styles or overrides if necessary */
-
-
 /* Import Flowbite */
 @import 'flowbite';
 
+
+
 /* Custom styles */
 :root {
-  --primary-color: theme(colors.custom-blue);
+  --primary-color: #4f46e5; /* Indigo */
+  --secondary-color: #06b6d4; /* Cyan */
+  --accent-color: #f97316; /* Coral */
+  --background-color: #f3f4f6; /* Light Gray */
+  --text-color: #374151; /* Dark Gray */
 }
 
 /* Dark mode styles */
@@ -19,5 +22,6 @@
 }
 
 body {
-  background-color: var(--primary-color);
+  background-color: var(--background-color);
+  color: var(--text-color);
 }

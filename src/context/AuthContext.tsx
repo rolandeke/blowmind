@@ -1,11 +1,15 @@
+'use client';
+
 import { auth } from "../utils/firebaseConfig";
 import firebase from "firebase/compat/app";
-import React, { createContext, ReactNode, useEffect, useReducer, Dispatch } from "react";
-
+import React, { createContext, ReactNode, useEffect, useReducer, Dispatch, useContext } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 interface AuthState {
     user: firebase.User | null;
     authIsReady: boolean;
+    loading: boolean;
+    error: firebase.auth.Error | null;
 }
 
 interface AuthAction {
@@ -14,23 +18,23 @@ interface AuthAction {
 }
 
 interface AuthContextValue extends AuthState {
-    dispatch: React.Dispatch<AuthAction>;
+    dispatch: Dispatch<AuthAction>;
 }
 
 type AuthContextProviderProps = {
     children: ReactNode;
 }
 
-export const AuthContext = createContext<AuthContextValue | undefined>(undefined);
+const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 const authReducer = (state: AuthState, action: AuthAction): AuthState => {
     switch (action.type) {
         case "LOGIN":
             return { ...state, user: action.payload };
-        case "LOGOUT": 
+        case "LOGOUT":
             return { ...state, user: null };
         case "AUTH_IS_READY":
-            return { user: action.payload, authIsReady: true };
+            return { ...state, user: action.payload, authIsReady: true };
         default:
             return state;
     }
@@ -40,20 +44,31 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     const [state, dispatch] = useReducer(authReducer, {
         user: null,
         authIsReady: false,
+        loading: true,
+        error: null,
     });
 
+    const [user, loading, error] = useAuthState(auth);
+
     useEffect(() => {
-        // Subscribe to authentication state changes
-        const unsub = auth.onAuthStateChanged((user) => {
-            dispatch({ type: "AUTH_IS_READY", payload: user as firebase.User | null});
-        });
-        // Unsubscribe on unmount
-        return () => unsub();
-    }, []);
+        if (user !== undefined) {
+            dispatch({ type: "AUTH_IS_READY", payload: user as firebase.User });
+        }
+    }, [user]);
 
     return (
-        <AuthContext.Provider value={{ ...state, dispatch }}>
+        <AuthContext.Provider value={{ ...state, user: user as firebase.User || null, loading, error: error ? error as firebase.auth.Error : null, dispatch }}>
             {children}
         </AuthContext.Provider>
-    )
-}
+    );
+};
+
+export const useAuthContext = () => {
+    const context = useContext(AuthContext);
+
+    if (!context) {
+        throw new Error("useAuthContext must be used inside an AuthContextProvider");
+    }
+
+    return context;
+};
