@@ -100,7 +100,7 @@ export default function Landing() {
             ) : (
               <>
                 <Link href="/#login">
-                  <button className="px-2 py-1 md:px-4 md:py-2 border border-indigo-600 text-indigo-600 rounded hover:bg-indigo-100">Log in</button>
+                  <button className="px-2 py-1 md:m-3 md:px-4 md:py-2 border border-indigo-600 text-indigo-600 rounded hover:bg-indigo-100">Log in</button>
                 </Link>
                 <Link href="/#signup">
                   <button className="px-2 py-1 md:px-4 md:py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Sign up</button>
