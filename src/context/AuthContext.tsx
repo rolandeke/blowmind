@@ -1,20 +1,20 @@
 'use client';
 
 import { auth } from "../utils/firebaseConfig";
-import firebase from "firebase/compat/app";
+import { User as FirebaseUser } from "firebase/auth";
 import React, { createContext, ReactNode, useEffect, useReducer, Dispatch, useContext } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 interface AuthState {
-    user: firebase.User | null;
+    user: FirebaseUser | null;
     authIsReady: boolean;
     loading: boolean;
-    error: firebase.auth.Error | null;
+    error: any | null;
 }
 
 interface AuthAction {
     type: "LOGIN" | "LOGOUT" | "AUTH_IS_READY";
-    payload: firebase.User | null;
+    payload: FirebaseUser | null;
 }
 
 interface AuthContextValue extends AuthState {
@@ -52,12 +52,12 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 
     useEffect(() => {
         if (user !== undefined) {
-            dispatch({ type: "AUTH_IS_READY", payload: user as firebase.User });
+            dispatch({ type: "AUTH_IS_READY", payload: user });
         }
     }, [user]);
 
     return (
-        <AuthContext.Provider value={{ ...state, user: user as firebase.User || null, loading, error: error ? error as firebase.auth.Error : null, dispatch }}>
+        <AuthContext.Provider value={{ ...state, user: user || null, loading, error: error ? error : null, dispatch }}>
             {children}
         </AuthContext.Provider>
     );
