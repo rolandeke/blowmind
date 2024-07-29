@@ -17,6 +17,7 @@ import ReviewImage from "../../../public/img/vibbi.jpg";
 import User1 from "../../../public/img/user5.jpg";
 import User2 from "../../../public/img/user2.jpg";
 import User3 from "../../../public/img/user3.jpg";
+import Logo from "../../../public/img/Blow-Mind.png"
 import { useState } from "react";
 import useTheme from "@/hooks/useTheme";
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -54,8 +55,9 @@ export default function Landing() {
     <div className={`landing bg-gray-50 dark:bg-gray-900 transition-colors duration-300`}>
        <nav className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 shadow-md">
         <div className="flex items-center text-indigo-600 dark:text-white">
-          <i className="fas fa-quote-left text-2xl"></i>
-          <span className="text-lg md:ml-2 md:text-2xl font-bold">Blowmind</span>
+          <span className="text-lg md:ml-2 md:text-2xl font-bold">
+            <Image src={Logo} alt="Logo" className="text-2xl" width={110} height={100}  />
+          </span>
         </div>
         <div className="md:hidden">
           <button
@@ -102,7 +104,7 @@ export default function Landing() {
                 <Link href="/#login">
                   <button className="px-2 py-1 md:m-3 md:px-4 md:py-2 border border-indigo-600 text-indigo-600 rounded hover:bg-indigo-100">Log in</button>
                 </Link>
-                <Link href="/#signup">
+                <Link href="/signup">
                   <button className="px-2 py-1 md:px-4 md:py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Sign up</button>
                 </Link>
               </>
@@ -197,8 +199,9 @@ export default function Landing() {
       <footer className="py-4 px-2 md:py-8 md:px-4 bg-gray-800 text-white">
         <div className="max-w-3xl mx-auto md:max-w-6xl grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="flex items-center gap-4 text-indigo-600">
-            <i className="fas fa-quote-left text-2xl"></i>
-            <span className="text-xl md:text-2xl font-bold">Blowmind</span>
+            <span className="text-xl md:text-2xl font-bold">
+              <Image src={Logo} alt="Logo" className="text-2xl" width={150} height={100}  />
+            </span>
           </div>
           <ul>
             <h5 className="text-xl font-bold mb-4">Explore</h5>
