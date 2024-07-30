@@ -1,6 +1,6 @@
 import { useAuthContext } from "../context/AuthContext";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth, db } from "@/utils/firebaseConfig";
+import { auth, db } from "../utils/firebaseConfig";
 import { useEffect, useState } from "react"
 import { doc, updateDoc } from "firebase/firestore";
 
