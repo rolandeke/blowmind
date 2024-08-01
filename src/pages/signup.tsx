@@ -10,6 +10,7 @@ import Logo from "../../public/img/Blow-Mind.png"
 import Link from "next/link";
 import GoogleButton from "@/components/GoogleButton";
 import Select from "react-select"; 
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 
 const userCategories: UserCategoryProps[] = [

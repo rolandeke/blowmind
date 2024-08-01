@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
+
 interface GoogleButtonProps {
     isPending: boolean;
     text: string;
@@ -28,9 +29,9 @@ const GoogleButton: React.FC<GoogleButtonProps> = ({
         <>
             <div 
                 onClick={handleSign} 
-                className="flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded cursor-pointer transition duration-300 "
+                className="flex items-center justify-center bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded cursor-pointer transition duration-300 "
             >
-               <i className="fab fa-google mr-2 bg-white p-2 rounded-full"></i>
+               <i className="fab fa-google mr-2"></i>
                {!isPending && <div>{text}</div>}
                {isPending && <div>Loading...</div>}
             </div>
