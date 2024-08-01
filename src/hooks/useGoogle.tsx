@@ -15,6 +15,7 @@ const useGoogle = () => {
 
     const googleSignUp = async () => {
         setError(null);
+        setIsPending(true);
 
         try {
             const provider = new GoogleAuthProvider();
@@ -58,6 +59,7 @@ const useGoogle = () => {
 
     const googleSignIn = async () => {
         setError(null);
+        setIsPending(true);
 
         try {
             const provider = new GoogleAuthProvider();

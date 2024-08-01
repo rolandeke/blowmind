@@ -6,8 +6,22 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useEffect, useState } from "react"
 
 
+interface UseSignup {
+    signup: (
+        firstName: string,
+        lastName: string,
+        email: string,
+        password: string,
+        thumbnail: File,
+        category: string
+    ) => Promise<void>;
+    error: string | null;
+    isPending: boolean;
+}
 
-const useSignup = () => {
+
+
+const useSignup = (): UseSignup => {
     const [isCancelled, setIsCancelled] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [isPending, setIsPending] = useState(false);
@@ -28,25 +42,26 @@ const useSignup = () => {
         try {
             //signup
             const res = await createUserWithEmailAndPassword(auth,email, password);
+            const user = res.user as FirebaseUser;
 
-            if (!res) {
+            if (!user) {
                 throw new Error("Could not complete signup");
             }
 
             // upload user thumbnail
-            const uploadPath = `thumbnails/${res.user?.uid}/${thumbnail.name}`;
+            const uploadPath = `thumbnails/${user.uid}/${thumbnail.name}`;
             const storageRef = ref(storage, uploadPath);
             await uploadBytes(storageRef, thumbnail);
             const downloadURL = await getDownloadURL(storageRef);
 
             // add display and photo_url name to user
-            await updateProfile(res.user,{
+            await updateProfile(user,{
                 displayName: `${firstName} ${lastName}`,
                 photoURL: downloadURL,
             });
 
             // create a user document
-            await setDoc(doc(db, "users", res.user?.uid), {
+            await setDoc(doc(db, "users", user.uid), {
                 online: true,
                 firstName,
                 photoUrl: downloadURL,
@@ -57,7 +72,7 @@ const useSignup = () => {
                 category,
             });
 
-            dispatch({ type: "LOGIN", payload: res.user });
+            dispatch({ type: "LOGIN", payload: user });
 
             if (!isCancelled) {
                 setIsPending(false);

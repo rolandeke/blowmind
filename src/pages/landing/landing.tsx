@@ -6,6 +6,11 @@ import { useAuthContext } from "../../context/AuthContext";
 import  useLogout  from "../../hooks/useLogout";
 import Card from "../landing/components/Card";
 import CustomSkeleton from "../../components/Skeleton";
+import useTheme from "@/hooks/useTheme";
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import Logo from "../../../public/img/Blow-Mind.png"
+import { useState } from "react";
+
 
 // Image imports
 import Analytic from "../../img/analytics.svg";
@@ -17,10 +22,7 @@ import ReviewImage from "../../../public/img/vibbi.jpg";
 import User1 from "../../../public/img/user5.jpg";
 import User2 from "../../../public/img/user2.jpg";
 import User3 from "../../../public/img/user3.jpg";
-import Logo from "../../../public/img/Blow-Mind.png"
-import { useState } from "react";
-import useTheme from "@/hooks/useTheme";
-import '@fortawesome/fontawesome-free/css/all.min.css';
+
 
 
 const cardContents = [
@@ -56,7 +58,7 @@ export default function Landing() {
        <nav className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 shadow-md">
         <div className="flex items-center text-indigo-600 dark:text-white">
           <span className="text-lg md:ml-2 md:text-2xl font-bold">
-            <Image src={Logo} alt="Logo" className="text-2xl" width={110} height={100}  />
+            <Image src={Logo} alt="Blow-mind Logo" className="text-2xl" width={110} height={100}  />
           </span>
         </div>
         <div className="md:hidden">
@@ -92,13 +94,16 @@ export default function Landing() {
             {loading ? (
               <CustomSkeleton width={35} height={35} circle={true} />
             ) : user ? (
-              <button
+              <>
+                <button
                 onClick={logout}
                 className="px-2 py-1 md:px-4 md:py-2 gap-4 bg-indigo-600 text-white rounded hover:bg-indigo-700"
                 disabled={isPending}
               >
                 {isPending ? "Logging out..." : "Logout"}
               </button>
+                {error && <div className="text-red-600 mt-4">{error}</div>}
+              </>
             ) : (
               <>
                 <Link href="/login">
@@ -125,16 +130,16 @@ export default function Landing() {
         </ul>
       </nav>
 
-      <section id="hero" className="flex items-center justify-center mb-3 text-center bg-gray-800 text-white py-6">
+      <section className="flex items-center justify-center mb-3 text-center bg-gray-800 text-white py-6">
         <div>
-          <Image src={HeroImage} alt="welcome message" className="mx-auto opacity-70" />
+          <Image src={HeroImage} alt="Welcome message" className="mx-auto opacity-70" />
           <h1 className="text-xl md:text-4xl font-bold mt-4">Welcome to Blowmind: A Haven for Text-Based Content</h1>
           <p className="text-lg md:text-xl mt-2">Unleash the Power of Words, Connect with Like-minded Readers and Writers</p>
           <button className="mt-4 px-3 py-1 md:y-2 md:px-6 bg-indigo-600 text-white rounded hover:bg-indigo-700">Get started</button>
         </div>
       </section>
 
-      <section id="about" className="py-10 px-2 mb-3 md:py-20 md:px-4 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100">
+      <section className="py-10 px-2 mb-3 md:py-20 md:px-4 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100">
         <div className="max-w-2xl md:max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
             <h2 className="text-3xl font-bold mb-4">About Blowmind</h2>
@@ -143,12 +148,12 @@ export default function Landing() {
             </p>
           </div>
           <div>
-            <Image src={AboutImage} alt="about illustration" className="rounded" />
+            <Image src={AboutImage} alt="About illustration" className="rounded" />
           </div>
         </div>
       </section>
 
-      <section id="join" className="py-20 px-4 text-center bg-white dark:bg-gray-900">
+      <section className="py-20 px-4 text-center bg-white dark:bg-gray-900">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold mb-4">Why you should join Blowmind</h2>
           <p className="text-lg mb-8">
@@ -162,10 +167,10 @@ export default function Landing() {
         </div>
       </section>
 
-      <section id="review" className="py-10 px-2 md:py-20 md:px-4 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100">
+      <section className="py-10 px-2 md:py-20 md:px-4 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100">
         <div className="max-w-2xl md:max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           <div>
-            <Image src={ReviewImage} alt="review preview" width={300} height={300}  className="rounded-full" />
+            <Image src={ReviewImage} alt="Review preview" width={300} height={300}  className="rounded-full" />
           </div>
           <div className="px-3">
             <p className="text-lg md:text-xl mb-4">Blowmind has become an integral part of my online experience. As a user of this incredible blogging platform, I have discovered a vibrant community of individuals who are passionate about sharing their ideas and engaging in thoughtful discussions.
@@ -179,7 +184,7 @@ export default function Landing() {
         </div>
       </section>
 
-      <section id="connect" className="py-10 px-2 md:py-20 md:px-4 text-center bg-white dark:bg-gray-900">
+      <section className="py-10 px-2 md:py-20 md:px-4 text-center bg-white dark:bg-gray-900">
         <div className="max-w-4xl mx-auto">
           <div className="flex justify-center gap-4 mb-8">
             <Image src={User1} alt="user" className="rounded-full" width={100} height={200} />

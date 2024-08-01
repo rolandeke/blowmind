@@ -75,6 +75,7 @@ export const useFirestore = (collectionName: string) => {
             const addedDocument = await addDoc(colRef, { ...doc, createdAt, imageURL: downloadURL });
             dispatchIfNotCancelled({ type: "ADDED_DOCUMENT", payload: addedDocument });
 
+            return addedDocument.id;
         } catch (err:any) {
             dispatchIfNotCancelled({ type:"ERROR", payload: err.message });
         }

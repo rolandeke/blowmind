@@ -10,14 +10,22 @@ export interface Post {
     createdAt: any;
     content: string;
     imageURL: string;
-    comments: [];
-    likes: [];
+    comments: Comment[];
+    likes: string[];
     share: string;
-    views: [];
-    bookmarks: [];
+    views: string[];
+    bookmarks: string[];
     expands: number;
     title: string;
-    tags: [];
+    tags: string[];
+  }
+
+  export interface Comment {
+    id: string;
+    displayName: string;
+    photoURL: string;
+    content: string;
+    createdAt: any;
   }
   
   export interface AvatarProps {

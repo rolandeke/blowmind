@@ -1,5 +1,3 @@
-'use client';
-
 import { auth } from "../utils/firebaseConfig";
 import { User as FirebaseUser } from "firebase/auth";
 import React, { createContext, ReactNode, useEffect, useReducer, Dispatch, useContext } from "react";

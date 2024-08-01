@@ -20,23 +20,27 @@ const useLogout = (): UseLogout => {
     setIsPending(true);
 
     try {
-      // Ensure the user document exists and update online status
-      const userDocRef = doc(db, "user", user!.uid) 
-      await updateDoc(userDocRef, { online: false });
+      if (user) {
+          // Ensure the user document exists and update online status
+        const userDocRef = doc(db, "users", user.uid) 
+        await updateDoc(userDocRef, { online: false });
 
-      // Sign the user out
-      await auth.signOut();
+        // Sign the user out
+        await auth.signOut();
 
-      // Dispatch logout action
-      dispatch({
-          type: "LOGOUT",
-          payload: null
-      });
+        // Dispatch logout action
+        dispatch({
+            type: "LOGOUT",
+            payload: null
+        });
 
-      // Update state
-      if (!isCancelled) {
-        setIsPending(false);
-        setError(null);
+        // Update state
+        if (!isCancelled) {
+          setIsPending(false);
+          setError(null);
+        }
+      } else {
+        throw new Error("No user is logged in")
       }
     } catch (err: any) {
       if (!isCancelled) {
