@@ -3,6 +3,7 @@ import { auth, db } from "../utils/firebaseConfig";
 import { useAuthContext } from "../context/AuthContext";
 import { doc, updateDoc } from "firebase/firestore";
 
+
 interface UseLogout {
   logout: () => Promise<void>;
   error: string | null;
