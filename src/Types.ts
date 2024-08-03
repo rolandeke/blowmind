@@ -1,3 +1,14 @@
+export interface Like {
+  uid: string;
+  displayName: string;
+  photoURL: string;
+  createdAt: {
+    seconds: number;
+    nanoseconds: number;
+  };
+  id: number;
+}
+
 export interface Post {
     id: string;
     author: {
@@ -7,14 +18,17 @@ export interface Post {
       id: string;
       headline: string;
     };
-    createdAt: any;
+    createdAt: {
+      seconds: number;
+      nanoseconds: number;
+    };
     content: string;
     imageURL: string;
     comments: Comment[];
-    likes: string[];
+    likes: Like[];
     share: string;
     views: string[];
-    bookmarks: string[];
+    bookmarks: Bookmark[];
     expands: number;
     title: string;
     tags: string[];
@@ -25,7 +39,9 @@ export interface Post {
     displayName: string;
     photoURL: string;
     content: string;
-    createdAt: any;
+    createdAt: {
+      seconds: number;
+    };
   }
   
   export interface AvatarProps {
@@ -42,7 +58,7 @@ export interface Post {
   
   export interface BookmarkToAdd {
     userId?: string;
-    id: number;
+    id: string;
     postId: string;
   }
   
@@ -59,15 +75,21 @@ export interface Post {
     title: string;
     content: string;
     imageURL: string;
-    comments: [];
-    likes: [];
+    comments: Comment[];
+    likes: Like[];
     share: string;
-    views: [];
-    bookmarks: [];
+    views: string[];
+    bookmarks: BookmarkedItem[];
   }
   
   export interface UserCategoryProps {
     value: string;
     label: string;
+  }
+
+  export interface Bookmark {
+    userId: string;
+    id: string;
+    postId: string;
   }
   
