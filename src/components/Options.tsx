@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import Confirm from "./Confirm";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
@@ -7,7 +7,7 @@ interface OptionProps {
     post: any;
 }
 
-export default function Options({ post }: OptionProps) {
+const Options: React.FC<OptionProps> = ({ post }) => {
     const [isConfirm, setIsConfirm] = useState(false);
 
 
@@ -30,4 +30,6 @@ export default function Options({ post }: OptionProps) {
             )}
         </div>
     )
-}
+};
+
+export default Options;

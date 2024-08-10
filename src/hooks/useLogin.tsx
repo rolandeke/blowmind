@@ -37,11 +37,14 @@ const useLogin = (): UseLogin => {
             const userDoc = await getDoc(documentRef);
 
             if (!userDoc.exists()) {
+                const [firstName, ...lastNameArr] = user.displayName?.split(" ") || [" "];
+                const lastName = lastNameArr.join(" "); 
+
                 await setDoc(documentRef, {
                     online: true,
                     email: user.email,
-                    firstName: user.displayName?.split("")[0] || "",
-                    lastName: user.displayName?.split("")[1] || "",
+                    firstName,
+                    lastName,
                     photoURL: user.photoURL || "",
                     interest: [],
                     headline:"",
@@ -63,7 +66,6 @@ const useLogin = (): UseLogin => {
             if (!isCancelled) {
                 setIsPending(false);
                 setError(err.message);
-                console.log(err.message);
             }
         }
     };

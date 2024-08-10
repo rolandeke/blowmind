@@ -3,6 +3,7 @@ export interface Like {
   displayName: string;
   photoURL: string;
   createdAt: {
+    toDate(): Date;
     seconds: number;
     nanoseconds: number;
   };
@@ -19,6 +20,7 @@ export interface Post {
       headline: string;
     };
     createdAt: {
+      toDate(): Date;
       seconds: number;
       nanoseconds: number;
     };
@@ -41,6 +43,8 @@ export interface Post {
     content: string;
     createdAt: {
       seconds: number;
+      toDate(): Date;
+      nanoseconds: number;
     };
   }
   
@@ -91,5 +95,14 @@ export interface Post {
     userId: string;
     id: string;
     postId: string;
+  }
+
+  export interface User {
+    id: string;
+    firstName: string;
+    lastName: string;
+    photoURL: string;
+    interests: string[];
+    email: string;
   }
   

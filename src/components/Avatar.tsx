@@ -13,6 +13,8 @@ const Avatar: React.FC<AvatarProps> = ({ src, alt= "User Avatar", className = ""
                 src={src || "/default-avatar.png"} 
                 alt={alt} 
                 className={`object-cover ${className}`} 
+                width={36}
+                height={36}
             />
         </div>
     );

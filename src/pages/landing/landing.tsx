@@ -4,13 +4,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { useAuthContext } from "../../context/AuthContext";
 import  useLogout  from "../../hooks/useLogout";
-import Card from "../landing/components/Card";
-import CustomSkeleton from "../../components/Skeleton";
+import Card from "../../components/Card";
+import CustomSkeleton from "../../components/CustomSkeleton";
 import useTheme from "@/hooks/useTheme";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import Logo from "../../../public/img/Blow-Mind.png"
 import { useState } from "react";
-
 
 // Image imports
 import Analytic from "../../img/analytics.svg";
@@ -53,8 +52,12 @@ export default function Landing() {
     changeMode(themeState.mode === "light" ? "dark" : "light");
   };
 
+  const scrollToTop = () => {
+    window.scrollTo({ top:0, behavior: "smooth" })
+  }
+
   return (
-    <div className={`landing bg-gray-50 dark:bg-gray-900 transition-colors duration-300`}>
+    <div className={`bg-gray-50 dark:bg-gray-900 transition-colors duration-300`}>
        <nav className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 shadow-md">
         <div className="flex items-center text-indigo-600 dark:text-white">
           <span className="text-lg md:ml-2 md:text-2xl font-bold">
@@ -86,7 +89,7 @@ export default function Landing() {
             </Link>
           </li>
           <li>
-            <Link href="#posts">
+            <Link href="/blog">
               <button className="text-indigo-600 hover:text-indigo-800 dark:text-white dark:hover:text-gray-300">Blogs</button>
             </Link>
           </li>
@@ -170,14 +173,14 @@ export default function Landing() {
       <section className="py-10 px-2 md:py-20 md:px-4 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100">
         <div className="max-w-2xl md:max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           <div>
-            <Image src={ReviewImage} alt="Review preview" width={300} height={300}  className="rounded-full" />
+            <Image src={ReviewImage} alt="Review preview" width={250} height={250}  className="rounded-full" />
           </div>
           <div className="px-3">
             <p className="text-lg md:text-xl mb-4">Blowmind has become an integral part of my online experience. As a user of this incredible blogging platform, I have discovered a vibrant community of individuals who are passionate about sharing their ideas and engaging in thoughtful discussions.
             </p>
-            <h4 className="text-xl md:text-2xl font-bold">Simeon Musa Nyakeh Vibbi,</h4>
-            <span className="text-gray-600">Frontend Engineering Student at AltSchool Africa</span>
-            <Link href="/#signup">
+            <h4 className="text-xl md:text-2xl font-bold">Simeon Vibbi,</h4>
+            <span className="text-gray-600">Frontend Engineering</span>
+            <Link href="/signup">
               <button className="block mt-4 px-3 py-1 md:px-6 md:py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Join Blowmind</button>
             </Link>
           </div>
@@ -195,38 +198,47 @@ export default function Landing() {
           <p className="text-sm md:text-lg mb-8">
             Share your great ideas, and also read write-ups based on your interests. Connect with people of the same interests and goals.
           </p>
-          <Link href="/#posts">
+          <Link href="/blog">
             <button className="px-3 py-1 md:px-6 md:py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Get started</button>
           </Link>
         </div>
       </section>
 
       <footer className="py-4 px-2 md:py-8 md:px-4 bg-gray-800 text-white">
-        <div className="max-w-3xl mx-auto md:max-w-6xl grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div className="flex items-center gap-4 text-indigo-600">
-            <span className="text-xl md:text-2xl font-bold">
-              <Image src={Logo} alt="Logo" className="text-2xl" width={150} height={100}  />
-            </span>
+          <div className="max-w-3xl mx-auto md:max-w-6xl grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div className="flex items-center gap-4 text-indigo-600">
+              <span className="text-xl md:text-2xl font-bold">
+                <Image src={Logo} alt="Logo" className="text-2xl" width={150} height={100}  />
+              </span>
+            </div>
+            <ul>
+              <h5 className="text-xl font-bold mb-4">Explore</h5>
+              <li className="mb-2">Community</li>
+              <li className="mb-2">Trending blogs</li>
+              <li className="mb-2">Blowmind for teams</li>
+            </ul>
+            <ul>
+              <h5 className="text-xl font-bold mb-4">Support</h5>
+              <li className="mb-2">Support docs</li>
+              <li className="mb-2">Join Slack</li>
+              <li className="mb-2">Contact</li>
+            </ul>
+            <ul>
+              <h5 className="text-xl font-bold mb-4">Official blog</h5>
+              <li className="mb-2">Community blog</li>
+              <li className="mb-2">Engineering blog</li>
+            </ul>
           </div>
-          <ul>
-            <h5 className="text-xl font-bold mb-4">Explore</h5>
-            <li className="mb-2">Community</li>
-            <li className="mb-2">Trending blogs</li>
-            <li className="mb-2">Blowmind for teams</li>
-          </ul>
-          <ul>
-            <h5 className="text-xl font-bold mb-4">Support</h5>
-            <li className="mb-2">Support docs</li>
-            <li className="mb-2">Join Slack</li>
-            <li className="mb-2">Contact</li>
-          </ul>
-          <ul>
-            <h5 className="text-xl font-bold mb-4">Official blog</h5>
-            <li className="mb-2">Community blog</li>
-            <li className="mb-2">Engineering blog</li>
-          </ul>
+          <div className="mt-8 text-center text-gray-400">
+            <p>&copy; 2024 by KontriDev. All rights reserved.</p>
+            <button 
+              onClick={scrollToTop} 
+              className="p-2 mt-4 bg-indigo-600 text-white rounded-full hover:bg-indigo-700"
+            >
+              <i className="fas fa-arrow-up"></i>
+            </button>
         </div>
-      </footer>
+     </footer>
     </div>
   );
 }

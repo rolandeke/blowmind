@@ -8,7 +8,7 @@ interface UseCollectionReturn<T> {
     isPending: boolean;
 }
 
-export const useCollection = <T>(
+export const useCollection = <T extends DocumentData>(
     collectionName: string, 
     _query?: [string, WhereFilterOp, any] | null,
     _orderBy?: [string, OrderByDirection] | null

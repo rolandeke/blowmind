@@ -3,7 +3,7 @@ import { useAuthContext } from "../context/AuthContext";
 import { ReactElement } from "react";
 import Avatar from "./Avatar";
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import CustomSkeleton from "./Skeleton";
+import CustomSkeleton from "./CustomSkeleton";
 
 interface User {
     uid: string;

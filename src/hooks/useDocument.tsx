@@ -8,14 +8,29 @@ interface UseDocumentResult<T> {
     isPending: boolean;
 }
 
-export const useDocument = <T extends DocumentData> (collectionName: string, id: string): UseDocumentResult<T> => {
+export const useDocument = <T extends DocumentData>(collectionName: string, id: string): UseDocumentResult<T> => {
     const [document, setDocument] = useState<T | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [isPending, setIsPending] = useState<boolean>(true);
 
-    // realtime data for documents
-
     useEffect(() => {
+        // Validate Firestore instance
+        if (!db) {
+            console.error("Firestore instance is not initialized.");
+            setError("Firestore is not initialized.");
+            setIsPending(false);
+            return;
+        }
+
+        // Validate collectionName and id
+        if (!collectionName || typeof collectionName !== 'string' || !id || typeof id !== 'string') {
+            console.error("Invalid collectionName or id provided:", { collectionName, id });
+            setError("Invalid collection or document ID.");
+            setIsPending(false);
+            return;
+        }
+
+       
         const ref = doc(db, collectionName, id);
 
         setIsPending(true);
@@ -25,20 +40,26 @@ export const useDocument = <T extends DocumentData> (collectionName: string, id:
                 if (snapshot.exists()) {
                     setDocument({ ...snapshot.data(), id: snapshot.id } as unknown as T);
                     setError(null);
-                } else{
-                    setError("No such document exist");
+                } else {
+                    setDocument(null);
+                    setError("No such document exists.");
                 }
-                setIsPending(false)
+                setIsPending(false);
             },
             (err) => {
-                console.log(err.message);
+                console.error("Error fetching document:", err.message);
+                if (err.code === 'permission-denied') {
+                    setError("You do not have permission to access this document.")
+                } else {
+                    setError("Failed to get document:" + err.message);
+                }
                 setIsPending(false);
-                setError("Failed to get document:" + err.message);
             }
         );
 
+    
         return () => unsub();
     }, [collectionName, id]);
 
-    return { document, error, isPending }
+    return { document, error, isPending };
 };

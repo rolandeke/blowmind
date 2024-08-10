@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from "react";
-import Landing from "./landing/landing";
+// src/pages/index.tsx
+
+import React from "react";
+import Landing from "../pages/landing/Landing";
 import { AuthContextProvider } from "../context/AuthContext";
 import { ThemeProvider } from "../context/ThemeContext";
 

@@ -1,25 +1,38 @@
 import type { AppProps } from "next/app";
-import "../../styles/globals.css"
-import { AuthContextProvider } from "../context/AuthContext";
+import "../../styles/globals.css";
+import { AuthContextProvider, useAuthContext } from "../context/AuthContext";
 import { ThemeProvider } from "../context/ThemeContext";
-import React from "react";
-import App from "next/app";
+import React, { useEffect, useState } from "react";
+import useTheme from "../hooks/useTheme";
+import Sidebar from "../components/Sidebar";
+import MainNavbar from "../components/MainNavbar";
+import { useRouter } from "next/router";
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const [mobileMenu, setMobileMenu] = useState(false);
+  const [screenWidth, setScreenWidth] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 0
+  );
+
+  useEffect(() => {
+    const changeWidth = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", changeWidth);
+
+    return () => {
+      window.removeEventListener("resize", changeWidth);
+    };
+  }, []);
+
   return (
     <AuthContextProvider>
       <ThemeProvider>
-        <Component {...pageProps} />
+        <Component {...pageProps} screenWidth={screenWidth} mobileMenu={mobileMenu} setIsMenuOpen={setMobileMenu} />
       </ThemeProvider>
     </AuthContextProvider>
   );
 }
-
-// Only if you need to use getInitialProps
-MyApp.getInitialProps = async (appContext: any) => {
-  // Calls page's `getInitialProps` and fills `appProps.pageProps`
-  const appProps = await App.getInitialProps(appContext);
-  return { ...appProps };
-};
 
 export default MyApp;

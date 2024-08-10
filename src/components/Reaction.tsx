@@ -3,8 +3,8 @@ import { Timestamp } from "../utils/firebaseConfig"
 import Link from "next/link"
 import { useFirestore } from "../hooks/useFirestore";
 import { useAuthContext } from "../context/AuthContext";
-import useTheme from "../hooks/useTheme";
 import { Post, Like } from "../Types";
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 
 
@@ -18,27 +18,31 @@ interface ReactionProps {
 const Reaction: React.FC<ReactionProps> = ({ post }) => {
     const { updateDocument, response } = useFirestore("post");
     const { user } = useAuthContext();
-    const { state: { color } } = useTheme();
-    const localColor = localStorage.getItem("color");
 
-    const like = post.likes.filter((like) => like.uid === user?.uid);
+    const userLike = post.likes.find((like) => like.uid === user?.uid);
 
     const handleLike = async () => {
-        const likeToAdd: Like = {
+        if (userLike){
+            console.log("You already liked this post");
+            return;
+        }
+        
+        
+        const newLike: Like = {
             id: Math.floor(Math.random() * 10000000),
-            displayName: user?.displayName!,
-            photoURL: user?.photoURL!,
+            displayName: user?.displayName || "",
+            photoURL: user?.photoURL || "",
             createdAt: Timestamp.fromDate(new Date()),
             uid: user?.uid!,
         };
 
-        if (like.length && like[0].uid === user?.uid) {
-            console.log("you already like this post");
-        } else {
             await updateDocument(post.id, {
-                likes: [...post.likes, likeToAdd],
+                likes: [...post.likes, newLike],
             });
-        }
+
+            if (response.error) {
+                console.error("Failed to like the post:", response.error)
+            }
     };
 
     return (
@@ -50,7 +54,7 @@ const Reaction: React.FC<ReactionProps> = ({ post }) => {
             </Link>
 
             <button className="flex items-center gap-2 p-2 text-gray-800 dark:text-gray-200" onClick={handleLike}>
-                {like.length && like[0].uid === user?.uid ? (
+                {userLike ? (
                     <i className="fas fa-heart text-red-600"></i>
                 ) : (
                     <i className="far fa-heart"></i>

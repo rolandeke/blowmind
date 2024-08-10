@@ -72,7 +72,7 @@ export const useFirestore = (collectionName: string) => {
                 downloadURL = await getDownloadURL(imageRef);
             }
 
-            const addedDocument = await addDoc(colRef, { ...doc, createdAt, imageURL: downloadURL });
+            const addedDocument = await addDoc(colRef, { ...doc, createdAt, imageURL: downloadURL,  userId: user?.uid, });
             dispatchIfNotCancelled({ type: "ADDED_DOCUMENT", payload: addedDocument });
 
             return addedDocument.id;

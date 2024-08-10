@@ -36,10 +36,16 @@ export const useCategory = (): useCategoryReturn => {
                 requestOptions
             );
 
+            if (response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
             const data = await response.json();
 
             if (data && data.category_list) {
                 return data.category_list[0].label.split(/-|,/);
+            } else {
+                throw new Error("No categories found")
             }
         } catch (error) {
             console.error("Error fetching categories:", error);
@@ -50,4 +56,4 @@ export const useCategory = (): useCategoryReturn => {
     };
 
     return { category, error, isPending }
-}
+};
