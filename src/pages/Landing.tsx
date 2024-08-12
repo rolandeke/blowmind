@@ -2,25 +2,25 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useAuthContext } from "../../context/AuthContext";
-import  useLogout  from "../../hooks/useLogout";
-import Card from "../../components/Card";
-import CustomSkeleton from "../../components/CustomSkeleton";
+import { useAuthContext } from "../context/AuthContext";
+import  useLogout  from "../hooks/useLogout";
+import Card from "../components/Card";
+import CustomSkeleton from "../components/CustomSkeleton";
 import useTheme from "@/hooks/useTheme";
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import Logo from "../../../public/img/Blow-Mind.png"
+import Logo from "../../public/img/Blow-Mind.png"
 import { useState } from "react";
 
 // Image imports
-import Analytic from "../../img/analytics.svg";
-import Social from "../../img/social.svg";
-import Content from "../../img/content.svg";
-import HeroImage from "../../../public/img/hero-section3.jpg";
-import AboutImage from "../../../public/img/about2.jpg";
-import ReviewImage from "../../../public/img/vibbi.jpg";
-import User1 from "../../../public/img/user5.jpg";
-import User2 from "../../../public/img/user2.jpg";
-import User3 from "../../../public/img/user3.jpg";
+import Analytic from "../img/analytics.svg";
+import Social from "../img/social.svg";
+import Content from "../img/content.svg";
+import HeroImage from "../../public/img/hero-section3.jpg";
+import AboutImage from "../../public/img/about2.jpg";
+import ReviewImage from "../../public/img/vibbi.jpg";
+import User1 from "../../public/img/user5.jpg";
+import User2 from "../../public/img/user2.jpg";
+import User3 from "../../public/img/user3.jpg";
 
 
 
@@ -69,7 +69,7 @@ export default function Landing() {
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="text-indigo-600 dark:text-white"
           >
-            <i className="fas fa-bars text-2xl"></i>
+            <i className={`fas ${isMenuOpen ? 'fa-times' : 'fa-bars'} text-2xl`}></i>
           </button>
         </div>
         <ul className={`flex-col md:flex-row md:flex items-center gap-4 ${isMenuOpen ? 'flex' : 'hidden'}`}>
@@ -190,9 +190,9 @@ export default function Landing() {
       <section className="py-10 px-2 md:py-20 md:px-4 text-center bg-white dark:bg-gray-900">
         <div className="max-w-4xl mx-auto">
           <div className="flex justify-center gap-4 mb-8">
-            <Image src={User1} alt="user" className="rounded-full" width={100} height={200} />
-            <Image src={User2} alt="user" className="rounded-full" width={100} height={200} />
-            <Image src={User3} alt="user" className="rounded-full" width={100} height={200} />
+            <Image src={User1} alt="user" className="rounded-full object-fill" width={100} height={200} />
+            <Image src={User2} alt="user" className="rounded-full object-fill" width={100} height={200} />
+            <Image src={User3} alt="user" className="rounded-full object-fill" width={100} height={200} />
           </div>
           <h2 className="text-xl md:text-3xl font-bold mb-4">Write, read and connect with great minds on Blowmind</h2>
           <p className="text-sm md:text-lg mb-8">

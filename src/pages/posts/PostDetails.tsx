@@ -21,7 +21,7 @@ const PostDetails: React.FC<PostDetailsProps> = ({ post }) => {
         <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md">
             <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-4">
-                    <Avatar src={post.author.photoURL} />
+                    <Avatar src={post.author.photoURL} className='w-22 h-22' />
                 </div>
                 <div>
                     <h2 className="text-lg font-semibold">

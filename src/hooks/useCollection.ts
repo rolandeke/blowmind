@@ -1,9 +1,20 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { db } from "../utils/firebaseConfig";
-import { collection, onSnapshot, query as firestoreQuery, where, orderBy as firestoreOrderby, WhereFilterOp, OrderByDirection, Query, DocumentData, CollectionReference } from "firebase/firestore";
+import {
+    collection,
+    onSnapshot,
+    query as firestoreQuery,
+    where,
+    orderBy as firestoreOrderby,
+    WhereFilterOp,
+    OrderByDirection,
+    Query,
+    DocumentData,
+    CollectionReference,
+} from "firebase/firestore";
 
 interface UseCollectionReturn<T> {
-    documents:T[] | null;
+    documents: T[] | null;
     error: string | null;
     isPending: boolean;
 }
@@ -17,19 +28,17 @@ export const useCollection = <T extends DocumentData>(
     const [error, setError] = useState<string | null>(null);
     const [isPending, setIsPending] = useState<boolean>(false);
 
-    const queryRef = useRef(_query).current;
-    const orderByRef = useRef(_orderBy).current;
-
     useEffect(() => {
         setIsPending(true);
-        let ref: Query<DocumentData> | CollectionReference <DocumentData> = collection(db, collectionName);
 
-        if (queryRef) {
-            ref = firestoreQuery(ref, where(...queryRef));
+        let ref: Query<DocumentData> | CollectionReference<DocumentData> = collection(db, collectionName);
+
+        if (_query) {
+            ref = firestoreQuery(ref, where(..._query));
         }
 
-        if (orderByRef) {
-            ref = firestoreQuery(ref, firestoreOrderby(...orderByRef));
+        if (_orderBy) {
+            ref = firestoreQuery(ref, firestoreOrderby(..._orderBy));
         }
 
         const unsub = onSnapshot(
@@ -51,7 +60,7 @@ export const useCollection = <T extends DocumentData>(
         );
 
         return () => unsub();
-    }, [collectionName, queryRef, orderByRef]);
+    }, [collectionName, _query, _orderBy]);
 
     return { documents, error, isPending };
 };

@@ -1,7 +1,5 @@
-// src/pages/index.tsx
-
 import React from "react";
-import Landing from "../pages/landing/Landing";
+import Landing from "../pages/Landing";
 import { AuthContextProvider } from "../context/AuthContext";
 import { ThemeProvider } from "../context/ThemeContext";
 

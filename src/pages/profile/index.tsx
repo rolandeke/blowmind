@@ -5,12 +5,13 @@ import { useCollection } from "../../hooks/useCollection";
 import { useDocument } from "../../hooks/useDocument";
 import useTheme from "../../hooks/useTheme";
 import { Post } from "../../Types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface ProfileProps {}
 
 const Profile: React.FC<ProfileProps> = () => {
     const { user }: any = useAuthContext();
+    const userId = user?.uid;
     const { color }: any = useTheme();
     const { error, document: CurrentUser } = useDocument<{
         firstName: string;
@@ -18,22 +19,27 @@ const Profile: React.FC<ProfileProps> = () => {
         interests: string[];
         headline: string;
         photoURL: string;
-    }>("users", user?.uid);
-    const localColor = localStorage.getItem("color");
+    }>("users", userId);
+    
 
     const [isTabbed, setIsTabbed] = useState(true);
+    const [localColor, setLocalColor] = useState<string | null>(null)
 
-    const { documents: posts } = useCollection<Post>("posts", [
-        "author.id",
-        "==",
-        user?.uid,
-    ]);
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            setLocalColor(localStorage.getItem("color"));
+        }
+    }, []);
 
-    const { documents: bookmarks } = useCollection<Post>("bookmarks", [
-        "userId",
-        "==",
-        user?.uid,
-    ]);
+        const { documents: posts } = useCollection<Post>(
+            "posts",
+            userId ? ["author.id","==",userId] : null
+        );
+
+    const { documents: bookmarks } = useCollection<Post>(
+        "bookmarks", 
+        userId ? ["userId","==",userId] : null
+    );
 
     if (error) {
         return <div className="text-red-600">{error}</div>;
@@ -44,7 +50,7 @@ const Profile: React.FC<ProfileProps> = () => {
             {CurrentUser && (
                 <div className="p-6 space-y-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
                     <div className="relative h-32 bg-gradient-to-r from-yellow-300 to-pink-300 rounded-t-lg flex items-center justify-center">
-                        <Avatar src={user?.photoURL} className="absolute -bottom-8" />
+                        <Avatar src={CurrentUser.photoURL || ""} className="absolute -bottom-8 w-20 h-20 " />
                     </div>
 
                     <div className="pt-16">

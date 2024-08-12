@@ -7,6 +7,7 @@ import { useCollection } from "../../hooks/useCollection";
 import { Post, User } from "../../Types";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import Footer from "@/components/Footer";
 
 type swProps = {
     sw: number;
@@ -70,6 +71,7 @@ const Home: React.FC<swProps> = ({ sw }) => {
                     </>
                 )}
             </div>
+            <Footer/>
         </div>
     );
 };

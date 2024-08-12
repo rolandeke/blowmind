@@ -25,7 +25,7 @@ export const useCategory = (): useCategoryReturn => {
         formdata.append("model", "IPTC_en");
 
         const requestOptions: RequestInit = {
-            method: "Post",
+            method: "POST",
             body: formdata,
             redirect: "follow"
         };
@@ -36,20 +36,20 @@ export const useCategory = (): useCategoryReturn => {
                 requestOptions
             );
 
-            if (response.ok) {
+            if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
             const data = await response.json();
 
-            if (data && data.category_list) {
+            if (data && data.category_list && data.category_list.length > 0) {
                 return data.category_list[0].label.split(/-|,/);
             } else {
                 throw new Error("No categories found")
             }
-        } catch (error) {
+        } catch (error: any) {
             console.error("Error fetching categories:", error);
-            setError(error || "Unknown error occurred");
+            setError(error.message || "Unknown error occurred");
         } finally {
             setIsPending(false);
         }
