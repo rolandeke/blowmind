@@ -1,83 +1,108 @@
 import { useAuthContext } from "../context/AuthContext";
-import { signInWithEmailAndPassword, User as FirebaseUser } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  User as FirebaseUser,
+} from "firebase/auth";
 import { auth, db } from "../utils/firebaseConfig";
-import { useEffect, useState } from "react"
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
-
+import { useEffect, useState } from "react";
+import {
+  doc,
+  DocumentReference,
+  DocumentSnapshot,
+  getDoc,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
+import { Message } from "../Types";
+import { useRouter } from "next/router";
 
 interface UseLogin {
-    login: (email: string, password: string) => Promise<void>;
-    error: string | null;
-    isPending: boolean;
+  login: (email: string, password: string) => Promise<void>;
+  message: Message | null | undefined;
+  isPending: boolean;
 }
 
-
 const useLogin = (): UseLogin => {
-    const [isCancelled, setIsCancelled] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-    const [isPending, setIsPending] = useState(false);
-    const { dispatch } = useAuthContext();
+  const router = useRouter();
+  const [isCancelled, setIsCancelled] = useState(false);
+  const [message, setMessage] = useState<Message | null | undefined>(null);
+  const [isPending, setIsPending] = useState(false);
+  const { dispatch } = useAuthContext();
 
+  const login = async (email: string, password: string): Promise<void> => {
+    setMessage(null);
+    setIsPending(true);
+    setIsCancelled(false);
 
-    const login = async (email: string, password: string): Promise<void> => {
-        setError(null);
-        setIsPending(true);
+    try {
+      //login
+      const response = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      ).catch((error) => {
+        console.log("Error Loggin in...");
+        console.log(error);
+        setIsPending(false);
 
-        try {
-            //login
-            const res = await signInWithEmailAndPassword(auth, email, password);
-            const user = res.user as FirebaseUser;
+        throw error;
+      });
+      console.log(response);
+      const user: FirebaseUser = response.user;
 
-            if (!user) {
-                throw new Error("Failed to login")
-            }
+      if (!user) {
+        throw new Error("Failed to login");
+      }
 
-            // update online status
-            const documentRef = doc(db, "users", user.uid);
-            const userDoc = await getDoc(documentRef);
+      // update online status
+      const documentRef: DocumentReference = doc(db, "users", user.uid);
+      const userDoc: DocumentSnapshot = await getDoc(documentRef);
 
-            if (!userDoc.exists()) {
-                const [firstName, ...lastNameArr] = user.displayName?.split(" ") || [" "];
-                const lastName = lastNameArr.join(" "); 
+      if (!userDoc.exists()) {
+        const [firstName, ...lastNameArr] = user.displayName?.split(" ") || [
+          " ",
+        ];
+        const lastName = lastNameArr.join(" ");
 
-                await setDoc(documentRef, {
-                    online: true,
-                    email: user.email,
-                    firstName,
-                    lastName,
-                    photoURL: user.photoURL || "",
-                    interest: [],
-                    headline:"",
-                });
-            } else {
-                await updateDoc(documentRef, { online: true});
-            }
+        await setDoc(documentRef, {
+          online: true,
+          email: user.email,
+          firstName,
+          lastName,
+          photoURL: user.photoURL || "",
+          interest: [],
+          headline: "",
+        });
+      } else {
+        await updateDoc(documentRef, { online: true });
+      }
 
+      dispatch({ type: "LOGIN", payload: user });
 
-            
-
-            dispatch({ type: "LOGIN", payload: user });
-
-            if (!isCancelled) {
-                setIsPending(false);
-                setError(null);
-            }
-        }   catch (err: any) {
-            if (!isCancelled) {
-                setIsPending(false);
-                setError(err.message);
-            }
+      setIsPending(false);
+      setMessage({ type: "Success", message: "Login Successful" });
+      router.push("/blog");
+    } catch (error: any) {
+      if (!isCancelled) {
+        if (error) {
+          let errorMessage: string = "";
+          if (error.code === "auth/invalid-credential") {
+            errorMessage = "Invalid email/password, please try again";
+          }
+          setMessage({ type: "Error", message: errorMessage });
+          setIsPending(false);
         }
+      }
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      setIsCancelled(true);
     };
+  }, []);
 
-    useEffect(() => {
-        return () => {
-            setIsCancelled(true);
-        }
-    }, []);
-
-    return { login, isPending, error };
-
+  return { login, isPending, message };
 };
 
 export default useLogin;

@@ -1,8 +1,8 @@
-import { initializeApp, getApp, getApps, setLogLevel } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import { getFirestore, Timestamp } from 'firebase/firestore';
-import { getStorage } from 'firebase/storage';
-import { getAnalytics } from 'firebase/analytics';
+import { initializeApp, getApp, getApps, setLogLevel } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore, Timestamp } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
+import { getAnalytics } from "firebase/analytics";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -24,7 +24,7 @@ export const db = getFirestore(app);
 export const storage = getStorage(app);
 // export const analytics = getAnalytics(app);
 
-setLogLevel('debug');
+setLogLevel("debug");
 
 // For Firestore Timestamp
 export { Timestamp };
